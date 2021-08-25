@@ -1,0 +1,28 @@
+const folderId="1WJ-66QHbGNRTkEMjfZj-AnbP9vaFSCvQ"
+const DESTINATION_FOLDER="1J8n2l6AraJsI-2HDHU8OpdKajx1gA7xD";
+
+function myFunction() {
+makeFileCopy(folderId,DESTINATION_FOLDER);
+}
+
+function makeFileCopy(sourceFolder,destinationFolder){
+const folder=DriveApp.getFolderById(sourceFolder);
+const destFolder=DriveApp.getFolderById(destinationFolder);
+let filesIte=folder.getFiles();
+while(filesIte.hasNext())
+{
+const file=filesIte.next();
+Logger.log(file.getName());
+Logger.log(file.getSize());
+Logger.log("-------------------------------------------------");
+file.makeCopy(destFolder)
+}
+
+let folderIte=folder.getFolders();
+while(folderIte.hasNext())
+{
+const folder=folderIte.next();
+const _folder= destFolder.createFolder(folder.getName());
+makeFileCopy(folder.getId(),_folder.getId());
+}
+}
